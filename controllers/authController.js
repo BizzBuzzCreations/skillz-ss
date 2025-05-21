@@ -8,7 +8,12 @@ exports.register = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword, role });
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({ user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    } });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -28,7 +33,12 @@ exports.login = async (req, res) => {
       expiresIn: '1d',
     });
 
-    res.json({ token });
+    res.json({ token, user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    } });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

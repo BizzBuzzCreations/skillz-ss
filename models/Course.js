@@ -20,20 +20,38 @@ const courseSchema = new mongoose.Schema({
     required: true,
   },
   description: String,
-
+  thumbnail: String, // URL or path to course thumbnail image
+  price: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  whatYouWillLearn: [String], // Array of bullet points
+  skillsYouWillGain: [String], // Array of bullet points
   instructor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-
   content: [
     {
       sectionTitle: String,
       resources: [resourceSchema],
     }
   ],
-
+  courseStructure: [
+    {
+      moduleTitle: String,
+      moduleDescription: String,
+      topics: [
+        {
+          topicTitle: String,
+          topicDescription: String,
+          videoUrls: [String],
+        }
+      ]
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
